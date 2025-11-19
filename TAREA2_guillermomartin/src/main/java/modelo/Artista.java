@@ -12,9 +12,9 @@ public class Artista extends Persona {
 
 	public Artista() {
 
-	}
+	}	
 
-	public Artista(Long idArt, String apodo, List<Especialidad> especialidades, List<Numero> numParticipa) {
+	public Artista(String apodo, List<Especialidad> especialidades,			List<Numero> numParticipa) {		super();		this.apodo = apodo;		this.especialidades = especialidades;		this.numParticipa = numParticipa;	}	public Artista(Long idArt, String apodo, List<Especialidad> especialidades, List<Numero> numParticipa) {
 		super();
 		this.idArt = idArt;
 		this.apodo = apodo;

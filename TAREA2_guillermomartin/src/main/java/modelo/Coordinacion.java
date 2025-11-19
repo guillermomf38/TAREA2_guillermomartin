@@ -14,6 +14,16 @@ public class Coordinacion extends Persona {
 	public Coordinacion() {
 
 	}
+	
+
+	public Coordinacion(boolean senior, LocalDate fechasenior,
+			Set<Espectaculo> espectaculosdirige) {
+		super();
+		this.senior = senior;
+		this.fechasenior = fechasenior;
+		this.espectaculosdirige = espectaculosdirige;
+	}
+
 
 	public Coordinacion(Long idCoord, boolean senior, LocalDate fechasenior, Set<Espectaculo> espectaculosdirige) {
 		super();

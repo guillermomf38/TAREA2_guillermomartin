@@ -9,6 +9,13 @@ public class Credenciales {
 
 	}
 
+	public Credenciales(String nombre, String password, Perfiles perfil) {
+		super();
+		this.nombre = nombre;
+		this.password = password;
+		this.perfil = perfil;
+	}
+
 	public Credenciales(Long id, String nombre, String password, Perfiles perfil) {
 		super();
 		this.id = id;

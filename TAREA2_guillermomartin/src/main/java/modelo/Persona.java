@@ -10,9 +10,20 @@ public  class Persona {
 	public Persona() {
 
 	}
+	
+
+	public Persona(String email, String nombre, String nacionalidad,
+			Long idCredencial) {
+		
+		this.email = email;
+		this.nombre = nombre;
+		this.nacionalidad = nacionalidad;
+		this.idCredencial = idCredencial;
+	}
+
 
 	public Persona(Long id, String email, String nombre, String nacionalidad, Long idCredencial) {
-		super();
+	
 		this.id = id;
 		this.email = email;
 		this.nombre = nombre;
