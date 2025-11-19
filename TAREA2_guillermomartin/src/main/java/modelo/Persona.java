@@ -10,6 +10,7 @@ public  class Persona {
 	public Persona() {
 
 	}
+
 	
 
 	public Persona(String email, String nombre, String nacionalidad,
@@ -22,8 +23,10 @@ public  class Persona {
 	}
 
 
+
+
 	public Persona(Long id, String email, String nombre, String nacionalidad, Long idCredencial) {
-	
+		super();
 		this.id = id;
 		this.email = email;
 		this.nombre = nombre;

@@ -26,6 +26,7 @@ package modelo;
 
 		}
 
+
 		public Espectaculo(String nombre, LocalDate fechaini,
 				LocalDate fechafin, Long idCoord) {
 			super();
@@ -34,6 +35,7 @@ package modelo;
 			this.fechafin = fechafin;
 			this.idCoord = idCoord;
 		}
+
 
 		public Espectaculo(Long id, String nombre, LocalDate fechaini, LocalDate fechafin, Long idCoord) {
 			super();

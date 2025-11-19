@@ -11,6 +11,7 @@ public class Numero {
 
 	}
 
+
 	public Numero(int orden, String nombre, double duracion,
 			Long idEspectaculo) {
 		super();
@@ -19,6 +20,7 @@ public class Numero {
 		this.duracion = duracion;
 		this.idEspectaculo = idEspectaculo;
 	}
+
 
 	public Numero(Long id, int orden, String nombre, double duracion, Long idEspectaculo) {
 		super();
