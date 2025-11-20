@@ -5,92 +5,99 @@
  *@version 1.0
  */
 
-
-
 package modelo;
 
-	import java.io.Serializable;
-	import java.time.LocalDate;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+public class Espectaculo {
 
-	@SuppressWarnings("serial")
-	public class Espectaculo implements Serializable {
+	private Long id;
+	private String nombre;
+	private LocalDate fechaini;
+	private LocalDate fechafin;
+	private Long idCoord;
+	private List<Numero> numeros = new ArrayList<>();
 
-		private Long id;
-		private String nombre;
-		private LocalDate fechaini;
-		private LocalDate fechafin;
-		private Long idCoord;
+	public Espectaculo() {
 
-		public Espectaculo() {
+	}
 
-		}
+	public Espectaculo(String nombre, LocalDate fechaini, LocalDate fechafin,
+			Long idCoord, List<Numero> numeros) {
+		super();
+		this.nombre = nombre;
+		this.fechaini = fechaini;
+		this.fechafin = fechafin;
+		this.idCoord = idCoord;
+		this.setNumeros(numeros);
+	}
 
+	public Espectaculo(Long id, String nombre, LocalDate fechaini,
+			LocalDate fechafin, Long idCoord, List<Numero> numeros) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.fechaini = fechaini;
+		this.fechafin = fechafin;
+		this.idCoord = idCoord;
+		this.setNumeros(numeros);
+	}
 
-		public Espectaculo(String nombre, LocalDate fechaini,
-				LocalDate fechafin, Long idCoord) {
-			super();
-			this.nombre = nombre;
-			this.fechaini = fechaini;
-			this.fechafin = fechafin;
-			this.idCoord = idCoord;
-		}
+	public Long getId() {
+		return id;
+	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-		public Espectaculo(Long id, String nombre, LocalDate fechaini, LocalDate fechafin, Long idCoord) {
-			super();
-			this.id = id;
-			this.nombre = nombre;
-			this.fechaini = fechaini;
-			this.fechafin = fechafin;
+	public String getNombre() {
+		return nombre;
+	}
 
-			this.idCoord = idCoord;
-		}
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 
-		public Long getId() {
-			return id;
-		}
+	public LocalDate getFechaini() {
+		return fechaini;
+	}
 
-		public void setId(Long id) {
-			this.id = id;
-		}
+	public void setFechaini(LocalDate fechaini) {
+		this.fechaini = fechaini;
+	}
 
-		public String getNombre() {
-			return nombre;
-		}
+	public LocalDate getFechafin() {
+		return fechafin;
+	}
 
-		public void setNombre(String nombre) {
-			this.nombre = nombre;
-		}
+	public void setFechafin(LocalDate fechafin) {
+		this.fechafin = fechafin;
+	}
 
-		public LocalDate getFechaini() {
-			return fechaini;
-		}
+	public Long getIdCoord() {
+		return idCoord;
+	}
 
-		public void setFechaini(LocalDate fechaini) {
-			this.fechaini = fechaini;
-		}
+	public void setIdCoord(Long idCoord) {
+		this.idCoord = idCoord;
+	}
 
-		public LocalDate getFechafin() {
-			return fechafin;
-		}
+	public List<Numero> getNumeros() {
+		return numeros;
+	}
 
-		public void setFechafin(LocalDate fechafin) {
-			this.fechafin = fechafin;
-		}
+	public void setNumeros(List<Numero> numeros) {
+		this.numeros = numeros;
+	}
 
-		public Long getIdCoord() {
-			return idCoord;
-		}
-
-		public void setIdCoord(Long idCoord) {
-			this.idCoord = idCoord;
-		}
-
-		@Override
-		public String toString() {
-			return "Espectaculo [id=" + id + ", nombre=" + nombre + ", fechaini=" + fechaini + ", fechafin=" + fechafin+ "]";
-		}
-
+	@Override
+	public String toString() {
+		return "Espectaculo [id=" + id + ", nombre=" + nombre + ", fechaini="
+				+ fechaini + ", fechafin=" + fechafin + ", idCoord=" + idCoord
+				+ ", numeros=" + numeros + "]";
+	}
 
 }
