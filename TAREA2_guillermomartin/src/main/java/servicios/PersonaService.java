@@ -119,8 +119,7 @@ public class PersonaService {
 
 	        return idPersona;
 	    }
-
-	    
+	  
 	    public Persona modificarDatosPersonales(Persona persona) {
 	        Sesion sesion = sesionService.getSesion();
 	        if (sesion.getPerfil() != Perfiles.ADMIN) {

@@ -20,7 +20,7 @@ public class SesionService {
 	private CredencialesDAO credDAO = new CredencialesDAO();
 	private Sesion sesion;
 	private String admin;
-	private String adminPass;
+	private String contraseña;
 
 	public SesionService() {
 		cargarAdmin();
@@ -29,14 +29,14 @@ public class SesionService {
 
 	private void cargarAdmin() {
 		Properties props = new Properties();
-		try (FileInputStream fis = new FileInputStream("configuracion.properties")) {
+		try (FileInputStream fis = new FileInputStream("src/main/resources/configuracion.properties")) {
             props.load(fis);
             admin = props.getProperty("admin");       
-            adminPass = props.getProperty("contraseña");
+            contraseña = props.getProperty("contraseña");
 		} catch (IOException e) {
 			System.out.println("Error cargando credenciales de Admin ");
 			admin = null;
-			adminPass = null;
+			contraseña = null;
 		}
 
 	}
@@ -56,7 +56,7 @@ public class SesionService {
 				return false;
 			}
 
-			if (usuario.equals(admin) && password.equals(adminPass)) {
+			if (usuario.equals(admin) && password.equals(contraseña)) {
 				sesion.setUsuarioActual("Admin");
 				sesion.setPerfil(Perfiles.ADMIN);
 				System.out.println("Login correcto como Admin");

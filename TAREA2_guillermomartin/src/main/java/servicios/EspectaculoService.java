@@ -7,6 +7,9 @@
 
 package servicios;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 import dao.ArtistaDAO;
@@ -37,13 +40,19 @@ public class EspectaculoService {
 
 	public List<Espectaculo> listarEspectaculosBasicos() {
 		try {
+			List<Espectaculo> espectaculos = espectaculoDAO
+					.listarEspectaculos();
 
-			return espectaculoDAO.listarEspectaculos();
+			if (espectaculos.isEmpty()) {
+				System.out.println("No hay espectaculos disponibles");
+			}
 
+			return espectaculos;
 		} catch (Exception e) {
-			System.out.println("Error al listar espectaculos ");
+			System.out.println("Error al listar espectaculos");
 			return List.of();
 		}
+
 	}
 
 	public Espectaculo verEspectaculoCompleto(Long id) {
@@ -116,6 +125,38 @@ public class EspectaculoService {
 		return espectaculoDAO.insertar(e);
 	}
 
+	public Long crearEspectaculo(String nombre, String fechaini,
+			String fechafin, String coordinadorSeleccionado) {
+		try {
+			if (nombre == null || nombre.isEmpty() || fechaini == null
+					|| fechaini.isEmpty() || fechafin == null
+					|| fechafin.isEmpty()) {
+				System.out.println("Nombre y fechas son obligatorios");
+				return null;
+			}
+
+			LocalDate ini;
+			LocalDate fin;
+			try {
+				ini = LocalDate.parse(fechaini.trim());
+				fin = LocalDate.parse(fechafin.trim());
+			} catch (DateTimeParseException d) {
+				System.out.println("Formato de fecha invalido. Usa YYYY-MM-DD");
+				return null;
+			}
+
+			Espectaculo e = new Espectaculo();
+			e.setNombre(nombre.trim());
+			e.setFechaini(ini);
+			e.setFechafin(fin);
+
+			return crearEspectaculo(e, coordinadorSeleccionado);
+		} catch (Exception ex) {
+			System.out.println("Error al crear espectaculo ");
+			return null;
+		}
+	}
+
 	public Espectaculo modificarEspectaculo(Espectaculo e,
 			String nuevoCoordinador) {
 		Sesion sesion = sesionService.getSesion();
@@ -158,6 +199,27 @@ public class EspectaculoService {
 
 		return espectaculoDAO.actualizar(e);
 	}
+	
+	public Espectaculo modificarEspectaculo(Long id, String nombre, String fechaini, String fechafin, String nuevoCoordinador) {
+	    try {
+	        LocalDate ini = LocalDate.parse(fechaini.trim());
+	        LocalDate fin = LocalDate.parse(fechafin.trim());
+
+	        Espectaculo e = new Espectaculo();
+	        e.setId(id);
+	        e.setNombre(nombre.trim());
+	        e.setFechaini(ini);
+	        e.setFechafin(fin);
+
+	        return modificarEspectaculo(e, nuevoCoordinador);
+	    } catch (DateTimeParseException d) {
+	        System.out.println("Formato de fecha invalido. Usa YYYY-MM-DD");
+	        return null;
+	    } catch (Exception ex) {
+	        System.out.println("Error al modificar espectaculo ");
+	        return null;
+	    }
+	}
 
 	public Long crearNumero(Long idEspectaculo, Numero n) {
 		if (n.getNombre() == null || n.getNombre().isEmpty()) {
@@ -176,6 +238,14 @@ public class EspectaculoService {
 		n.setIdEspectaculo(idEspectaculo);
 		return numeroDAO.insertar(n);
 	}
+	
+	public Long crearNumero(Long idEspectaculo, String nombre, Integer duracion, Integer orden) {
+	    Numero n = new Numero();
+	    n.setNombre(nombre);
+	    n.setDuracion(duracion);
+	    n.setOrden(orden);
+	    return crearNumero(idEspectaculo, n);
+	}
 
 	public Numero modificarNumero(Numero n) {
 		if (n.getNombre() == null || n.getNombre().isEmpty()) {
@@ -192,6 +262,14 @@ public class EspectaculoService {
 		}
 
 		return numeroDAO.actualizar(n);
+	}
+	public Numero modificarNumero(Long id, String nombre, Integer duracion, Integer orden) {
+	    Numero n = new Numero();
+	    n.setId(id);
+	    n.setNombre(nombre);
+	    n.setDuracion(duracion);
+	    n.setOrden(orden);
+	    return modificarNumero(n);
 	}
 
 	public Espectaculo eliminarEspectaculo(Long id) {
@@ -217,5 +295,19 @@ public class EspectaculoService {
 			participaDAO.insertar(idNumero, idArt);
 		}
 		return true;
+	}
+	public boolean asignarArtistasANumero(Long idNumero, String ids) {
+	    List<Long> idArtistas = new ArrayList<>();
+	    for (String parte : ids.split(",")) {
+	        parte = parte.trim();
+	        if (!parte.isEmpty()) {
+	            try {
+	                idArtistas.add(Long.valueOf(parte));
+	            } catch (NumberFormatException e) {
+	                System.out.println("Id de artista invalido: " + parte);
+	            }
+	        }
+	    }
+	    return asignarArtistasANumero(idNumero, idArtistas);
 	}
 }
