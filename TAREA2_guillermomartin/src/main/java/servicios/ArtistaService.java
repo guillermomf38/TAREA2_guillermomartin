@@ -28,16 +28,21 @@ public class ArtistaService {
 			System.out.println("Solo un artista puede ver su ficha");
 			return null;
 		}
+		// Obtener el ID del artista a partir del usuario actual en sesión
 
 		Long idArtista = Long.valueOf(sesion.getUsuarioActual());
+		
+		// Consultar la ficha del artista en la base de datos
 
 		Artista ficha = artistaDAO.verFicha(idArtista);
-
+		
+		// Validar que la ficha exista
 		if (ficha == null) {
 			System.out.println("No se encontro la ficha del artista");
 			return null;
 		}
-
+		
+		// Devolver la ficha encontrada
 		return ficha;
 	}
 

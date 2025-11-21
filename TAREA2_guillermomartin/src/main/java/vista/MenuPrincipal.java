@@ -7,6 +7,7 @@
 
 package vista;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import servicios.ArtistaService;
@@ -36,7 +37,7 @@ public class MenuPrincipal {
 
 	public void mostrarMenuPrincipal() {
 		Scanner leer = new Scanner(System.in);
-		int opcion;
+		int opcion = -1;
 
 		do {
 			System.out.println("-- Menu Principal --");
@@ -44,11 +45,18 @@ public class MenuPrincipal {
 			System.out.println("2- Iniciar Sesion");
 			System.out.println("0- Salir del programa");
 			System.out.print("Selecciona una opcion: ");
+			try {
 
-			opcion = leer.nextInt();
-			leer.nextLine();
+				opcion = leer.nextInt();
+				leer.nextLine();
+			} catch (InputMismatchException e) {
+				System.out.println("Error debes introducir un numero valido");
+				leer.nextLine();
+				opcion = -1;
+			}
 
 			switch (opcion) {
+
 			case 1:
 				espectaculoService.listarEspectaculosBasicos();
 				break;

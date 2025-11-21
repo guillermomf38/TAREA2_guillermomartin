@@ -21,11 +21,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
 public class NacionalidadService {
+	// Mapa que almacena los países leídos desde el XML 
 	private final Map<String, String> paises;
 
 	public NacionalidadService() {
 		this.paises = leerPaises();
 	}
+	 
+	 // Lee el archivo XML de países usando la ruta configurada en ruta.properties
 
 	private static Map<String, String> leerPaises() {
 		Map<String, String> paises = new LinkedHashMap<>();
@@ -75,11 +78,11 @@ public class NacionalidadService {
 
 		return paises;
 	}
-
+	 // Verifica si una nacionalidad es válida 
 	public boolean esValida(String nacionalidad) {
 		return paises.containsValue(nacionalidad);
 	}
-
+	// Devuelve el mapa completo de países
 	public Map<String, String> getPaises() {
 		return paises;
 	}

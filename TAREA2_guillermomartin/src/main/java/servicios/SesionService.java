@@ -26,7 +26,7 @@ public class SesionService {
 		cargarAdmin();
 		sesion = new Sesion("Invitado", Perfiles.INVITADO);
 	}
-
+	 // Carga las credenciales del admin desde properties
 	private void cargarAdmin() {
 		Properties props = new Properties();
 		try (FileInputStream fis = new FileInputStream("src/main/resources/configuracion.properties")) {
@@ -40,6 +40,7 @@ public class SesionService {
 		}
 
 	}
+	// Iniciar sesión con usuario y contraseña
 
 	public boolean login(String usuario, String password) {
 		try {
@@ -48,6 +49,7 @@ public class SesionService {
 				System.out.println("Ya hay una sesion activa");
 				return false;
 			}
+			// Validacion de campos vacíos
 
 			if (usuario == null || usuario.isEmpty() || password == null
 					|| password.isEmpty()) {
@@ -55,6 +57,7 @@ public class SesionService {
 						.println("Usuario y contraseña no pueden estar vacios");
 				return false;
 			}
+			 // Login como administrador
 
 			if (usuario.equals(admin) && password.equals(contraseña)) {
 				sesion.setUsuarioActual("Admin");
@@ -80,17 +83,17 @@ public class SesionService {
 		}
 	}
 
+    // Cierra la sesión actual y vuelve a invitado
+
 	public void logout() {
 		sesion = new Sesion("Invitado", Perfiles.INVITADO);
-		System.out.println("Sesion cerrada. Perfil actual: Invitado");
-	}
 
+	}
+	// Devuelve la sesión actual
 	public Sesion getSesion() {
 		return sesion;
 	}
 
-	public boolean haySesionActiva() {
-		return sesion.getPerfil() != Perfiles.INVITADO;
-	}
+
 
 }

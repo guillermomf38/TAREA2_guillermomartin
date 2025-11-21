@@ -42,7 +42,8 @@ public class PersonaService {
 	        this.nacionalidadService = nacionalidadService;
 	    }
 	    
-	  
+	    // Registra una nueva persona con sus credenciales y perfiles asociados
+
 	    public Long registrarPersona(Persona persona, Credenciales credenciales, Coordinacion coord, Artista art) {
 	        Sesion sesion = sesionService.getSesion();
 	        if (sesion.getPerfil() != Perfiles.ADMIN) {
@@ -82,20 +83,23 @@ public class PersonaService {
 	            System.out.println("Contraseña invalida");
 	            return null;
 	        }
-
+	        
+	        // Comprobar si ya existe usuario con ese nombre
 	        Credenciales existente = credDAO.buscarPorNombre(credenciales.getNombre());
 	        if (existente != null) {
 	            System.out.println("Ya existe un usuario con ese nombre");
 	            return null;
 	        }
 
-	      
+	        // Inserción en BD
+
 	        Long idPersona = personaDAO.insertar(persona);
 
 	        
 	        credDAO.insertar(credenciales);
 
-	        
+	     // Validaciones específicas según perfil
+
 	        if (credenciales.getPerfil() == Perfiles.COORDINACION) {
 	            if (coord == null) {
 	                System.out.println("Debe indicar datos de Coordinacion");
@@ -143,7 +147,7 @@ public class PersonaService {
 	        return personaDAO.actualizar(persona);
 	    }
 
-	
+	 // Modifica datos de Coordinacion asociados a una persona
 	    public Coordinacion modificarCoordinacion(Long idPersona, boolean senior, LocalDate fechaSenior) {
 	        Sesion sesion = sesionService.getSesion();
 	        if (sesion.getPerfil() != Perfiles.ADMIN) {
@@ -164,7 +168,7 @@ public class PersonaService {
 	        return coord;
 	    }
 
-	   
+	    // Modifica datos de Artista asociados a una persona
 	    public Artista modificarArtista(Long idPersona, String apodo, List<Especialidad> especialidades) {
 	        Sesion sesion = sesionService.getSesion();
 	        if (sesion.getPerfil() != Perfiles.ADMIN) {
@@ -188,7 +192,8 @@ public class PersonaService {
 	        return artistaDAO.actualizar(artista);
 	    }
 
-	   
+	    // Elimina una persona y sus perfiles asociados
+
 	    public Persona eliminarPersona(Long idPersona) {
 	        Sesion sesion = sesionService.getSesion();
 	        if (sesion.getPerfil() != Perfiles.ADMIN) {

@@ -145,7 +145,7 @@ public class MenuAdmin {
 				System.out.print("Contrasena: ");
 				String password = leer.nextLine();
 				System.out.print(
-						"Perfil (INVITADO/ARTISTA/COORDINACION/ADMIN): ");
+						"Perfil (ARTISTA/COORDINACION/ADMIN): ");
 				String perfil = leer.nextLine();
 
 				Persona persona = new Persona();
@@ -161,7 +161,9 @@ public class MenuAdmin {
 				Coordinacion coord = null;
 				Artista art = null;
 
-				personaService.registrarPersona(persona, cred, coord, art);
+				 personaService.registrarPersona(persona, cred, coord, art);
+			
+
 				break;
 
 			case 2:

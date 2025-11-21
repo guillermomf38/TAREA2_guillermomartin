@@ -37,7 +37,7 @@ public class EspectaculoService {
 		this.sesionService = sesionService;
 
 	}
-
+	// Lista espectáculos básicos
 	public List<Espectaculo> listarEspectaculosBasicos() {
 		try {
 			List<Espectaculo> espectaculos = espectaculoDAO
@@ -54,6 +54,7 @@ public class EspectaculoService {
 		}
 
 	}
+	   // Devuelve un espectáculo completo con sus números y artistas asociados
 
 	public Espectaculo verEspectaculoCompleto(Long id) {
 		Espectaculo e = espectaculoDAO.buscarPorId(id);
@@ -156,7 +157,7 @@ public class EspectaculoService {
 			return null;
 		}
 	}
-
+	// Modifica un espectáculo existente validando permisos
 	public Espectaculo modificarEspectaculo(Espectaculo e,
 			String nuevoCoordinador) {
 		Sesion sesion = sesionService.getSesion();
@@ -190,6 +191,7 @@ public class EspectaculoService {
 			System.out.println("El periodo de vigencia no puede superar 1 año");
 			return null;
 		}
+		 // Asignación de coordinador según perfil
 
 		if (sesion.getPerfil() == Perfiles.ADMIN && nuevoCoordinador != null) {
 			e.setIdCoord(Long.valueOf(nuevoCoordinador));
@@ -220,6 +222,7 @@ public class EspectaculoService {
 	        return null;
 	    }
 	}
+	// Crea un número dentro de un espectáculo
 
 	public Long crearNumero(Long idEspectaculo, Numero n) {
 		if (n.getNombre() == null || n.getNombre().isEmpty()) {
@@ -246,6 +249,7 @@ public class EspectaculoService {
 	    n.setOrden(orden);
 	    return crearNumero(idEspectaculo, n);
 	}
+	// Modifica un número existente
 
 	public Numero modificarNumero(Numero n) {
 		if (n.getNombre() == null || n.getNombre().isEmpty()) {
