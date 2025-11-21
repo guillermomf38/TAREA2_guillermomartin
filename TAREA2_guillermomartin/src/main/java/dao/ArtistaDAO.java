@@ -55,9 +55,9 @@ public class ArtistaDAO {
 					PersonaDAO personaDAO = new PersonaDAO();
 					Persona persona = personaDAO.buscarId(idArt);
 					if (persona != null) {
-					    a.setNombre(persona.getNombre());
-					    a.setNacionalidad(persona.getNacionalidad());
-					    a.setEmail(persona.getEmail());
+						a.setNombre(persona.getNombre());
+						a.setNacionalidad(persona.getNacionalidad());
+						a.setEmail(persona.getEmail());
 					}
 
 					a.setEspecialidades(obtenerEspecialidades(idArt));
@@ -87,61 +87,38 @@ public class ArtistaDAO {
 	}
 
 	public List<Artista> listarPorNumero(Long idNumero) {
-		List<Artista> lista = new ArrayList<>();
-		String sql = "SELECT a.idArt, a.apodo FROM artista a JOIN participa p ON a.idArt = p.idArt WHERE p.idNumero = ?";
-		try (PreparedStatement ps = conexion.prepareStatement(sql)) {
-			ps.setLong(1, idNumero);
-			try (ResultSet rs = ps.executeQuery()) {
-				while (rs.next()) {
-					Long idArt = rs.getLong("idArt");
-					Artista a = new Artista();
-					a.setIdArt(idArt);
-					a.setApodo(rs.getString("apodo"));
+		ParticipaDAO participaDAO = new ParticipaDAO();
+		List<Long> idsArtistas = participaDAO.listarArtistasPorNumero(idNumero);
 
-					PersonaDAO personaDAO = new PersonaDAO();
-					Persona persona = personaDAO.buscarId(idArt);
-					if (persona != null) {
-						a.setNombre(persona.getNombre());
-						a.setNacionalidad(persona.getNacionalidad());
-					}
-					a.setEspecialidades(obtenerEspecialidades(idArt));
-					lista.add(a);
-				}
+		List<Artista> lista = new ArrayList<>();
+		for (Long idArt : idsArtistas) {
+			Artista a = buscarPorId(idArt);
+			if (a != null) {
+				lista.add(a);
 			}
-		} catch (SQLException e) {
-			System.out.println("Error listando artistas por numero ");
 		}
 		return lista;
 	}
 
 	public boolean asignarANumero(Long idArt, Long idNumero) {
-		String sql = "INSERT INTO participa (idArt, idNumero) VALUES (?, ?)";
-		try (PreparedStatement ps = conexion.prepareStatement(sql)) {
-			ps.setLong(1, idArt);
-			ps.setLong(2, idNumero);
-			int filas = ps.executeUpdate();
-			return filas > 0;
-		} catch (SQLException e) {
-			System.out.println("Error asignando artista a numero ");
-		}
-		return false;
+		ParticipaDAO participaDAO = new ParticipaDAO();
+		return participaDAO.insertar(idNumero, idArt);
+
 	}
 
 	public Artista verFicha(Long idArt) {
-	    Artista a = buscarPorId(idArt);
-	    if (a != null) {
-	        EspectaculoDAO espectaculoDAO = new EspectaculoDAO();
-	        List<Numero> numerosParticipa = a.getNumParticipa();
+		Artista a = buscarPorId(idArt);
+		if (a != null) {
+			a.setNumParticipa(obtenerNumerosParticipa(idArt));
 
-	        for (Numero n : numerosParticipa) {
-	            Espectaculo e = espectaculoDAO.buscarInfoBasico(n.getIdEspectaculo());
-	            n.setEspectaculo(e);
-	        }
-
-	        a.setNumParticipa(numerosParticipa);
-	    }
-
-	    return a;
+			EspectaculoDAO espectaculoDAO = new EspectaculoDAO();
+			for (Numero n : a.getNumParticipa()) {
+				Espectaculo e = espectaculoDAO
+						.buscarInfoBasico(n.getIdEspectaculo());
+				n.setEspectaculo(e);
+			}
+		}
+		return a;
 	}
 
 	private List<Especialidad> obtenerEspecialidades(Long idArt) {
@@ -162,20 +139,16 @@ public class ArtistaDAO {
 	}
 
 	private List<Numero> obtenerNumerosParticipa(Long idArt) {
+		ParticipaDAO participaDAO = new ParticipaDAO();
+		List<Long> idsNumeros = participaDAO.listarNumerosPorArtista(idArt);
+
+		NumeroDAO numeroDAO = new NumeroDAO();
 		List<Numero> lista = new ArrayList<>();
-		String sql = "SELECT n.id, n.orden, n.nombre, n.duracion, n.idEspectaculo FROM numero n JOIN participa p ON n.id = p.idNumero WHERE p.idArt=?";
-		try (PreparedStatement ps = conexion.prepareStatement(sql)) {
-			ps.setLong(1, idArt);
-			try (ResultSet rs = ps.executeQuery()) {
-				while (rs.next()) {
-					Numero n = new Numero(rs.getLong("id"), rs.getInt("orden"),
-							rs.getString("nombre"), rs.getDouble("duracion"),
-							rs.getLong("idEspectaculo"));
-					lista.add(n);
-				}
+		for (Long idNum : idsNumeros) {
+			Numero n = numeroDAO.buscarPorId(idNum);
+			if (n != null) {
+				lista.add(n);
 			}
-		} catch (SQLException e) {
-			System.out.println("Error obteniendo numeros de artista: ");
 		}
 		return lista;
 	}

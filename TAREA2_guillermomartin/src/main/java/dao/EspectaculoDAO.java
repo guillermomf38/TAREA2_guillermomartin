@@ -56,9 +56,9 @@ public class EspectaculoDAO {
 					e.setFechaini(rs.getDate("fechaini").toLocalDate());
 					e.setFechafin(rs.getDate("fechafin").toLocalDate());
 					e.setIdCoord(rs.getLong("idCoord"));
-					  NumeroDAO numDAO = new NumeroDAO();
-	                    List<Numero> numeros = numDAO.listarPorEspectaculo(id);
-	                    e.setNumeros(numeros);
+					NumeroDAO numDAO = new NumeroDAO();
+					List<Numero> numeros = numDAO.listarPorEspectaculo(id);
+					e.setNumeros(numeros);
 
 					return e;
 				}
@@ -104,23 +104,25 @@ public class EspectaculoDAO {
 		}
 		return null;
 	}
+
 	public Espectaculo buscarInfoBasico(Long id) {
-	    String sql = "SELECT id, nombre FROM espectaculo WHERE id=?";
-	    try (PreparedStatement ps=conexion.prepareStatement(sql)) {
-	        ps.setLong(1, id);
-	        try (ResultSet rs = ps.executeQuery()) {
-	            if (rs.next()) {
-	                Espectaculo e = new Espectaculo();
-	                e.setId(rs.getLong("id"));
-	                e.setNombre(rs.getString("nombre"));
-	                return e;
-	            }
-	        }
-	    } catch (SQLException e) {
-	        System.out.println("Error buscando espectaculo ");
-	    }
-	    return null;
+		String sql = "SELECT id, nombre FROM espectaculo WHERE id=?";
+		try (PreparedStatement ps = conexion.prepareStatement(sql)) {
+			ps.setLong(1, id);
+			try (ResultSet rs = ps.executeQuery()) {
+				if (rs.next()) {
+					Espectaculo e = new Espectaculo();
+					e.setId(rs.getLong("id"));
+					e.setNombre(rs.getString("nombre"));
+					return e;
+				}
+			}
+		} catch (SQLException e) {
+			System.out.println("Error buscando espectaculo ");
+		}
+		return null;
 	}
+
 	public List<Espectaculo> listarEspectaculos() {
 		List<Espectaculo> listaEspec = new ArrayList<>();
 		String sql = "SELECT id, nombre, fechaini, fechafin, idCoord FROM espectaculo ORDER BY fechaini";

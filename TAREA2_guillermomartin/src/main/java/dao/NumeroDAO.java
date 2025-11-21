@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import modelo.Artista;
 import modelo.Numero;
 import utils.ConexBD;
 
@@ -54,9 +55,9 @@ public class NumeroDAO {
 					n.setNombre(rs.getString("nombre"));
 					n.setDuracion(rs.getDouble("duracion"));
 					n.setIdEspectaculo(rs.getLong("idEspectaculo"));
-					
+
 					ArtistaDAO artistaDAO = new ArtistaDAO();
-	                n.setArtistas(artistaDAO.listarPorNumero(id));
+					n.setArtistas(artistaDAO.listarPorNumero(id));
 
 					return n;
 				}
@@ -125,4 +126,19 @@ public class NumeroDAO {
 		return lista;
 	}
 
+	public List<Artista> obtenerArtistas(Long idNumero) {
+		ParticipaDAO participaDAO = new ParticipaDAO();
+		List<Long> idsArtistas = participaDAO.listarArtistasPorNumero(idNumero);
+
+		ArtistaDAO artistaDAO = new ArtistaDAO();
+		List<Artista> artistas = new ArrayList<>();
+		for (Long idArt : idsArtistas) {
+			Artista a = artistaDAO.buscarPorId(idArt);
+			if (a != null) {
+				artistas.add(a);
+			}
+		}
+		return artistas;
+	}
 }
+
